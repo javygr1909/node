@@ -1,0 +1,131 @@
+{
+    "mockDirectory": "../node/mock",
+    "quiet": false,
+    "port": "9000",
+    "latency": 50,
+    "logRequestHeaders": false,
+    "webServices": {
+        "v1/organizations/:apigeeOrg/developers/:apigeeDeveloper/apps/:apigeeApp": {
+            "latency": 10,
+            "verbs": [
+                "get"
+            ],
+            "switch": [
+                "apigeeOrg",
+                "apigeeDeveloper",
+                "apigeeApp"
+            ],
+            "responses": {
+                "get": {
+                    "httpStatus": 400,
+                    "mockFile": "credenciales_badRequest.json"
+                }
+            },
+            "switchResponses": {
+                "apigeeOrgorgeTestapigeeDeveloperejemploDeveloperapigeeAppejemploApp": {
+                    "httpStatus": 200,
+                    "mockFile": "credenciales_ok.json"
+                }
+            }
+        },
+        "oauth2/v1/token": {
+            "latency": 10,
+            "contentType": "application/x-www-form-urlencoded",
+            "headers": {
+                "Authorization": "Basic MXJ0N2J0cEJJcG5aVWdzNVlFTWgyN1A5R0wyWTFSdDg6MTVGTDRtenJXVHFHMnlISg=="
+            },
+            "verbs": [
+                "post"
+            ],
+            "switch": [
+                "grant_type"
+            ],
+            "responses": {
+                "get": {
+                    "httpStatus": 400,
+                    "mockFile": "autorizacion_badRequest.json"
+                }
+            },
+            "switchResponses": {
+                "grant_typeclient_credentials": {
+                    "httpStatus": 200,
+                    "mockFile": "autorizacion_ok.json"
+                }
+            }
+        },
+        "banca-digital/usuarios/v1": {
+            "latency": 25,
+            "verbs": [
+                "get",
+                "post"
+            ],
+            "switch": [
+                "$.producto",
+                "$.usuario.nombre",
+                "$.usuario.correoElectronico",
+                "$.usuario.numeroTelefono",
+                "$.usuario.domicilio.calle",
+                "$.usuario.domicilio.numero",
+                "$.usuario.domicilio.codigoPostal",
+                "$.usuario.domicilio.ciudad"
+            ],
+            "responses": {
+                "post": {
+                    "httpStatus": 400,
+                    "mockFile": "usuarios-POST/bad_request.json"
+                },
+                "get": {
+                    "httpStatus": 200,
+                    "mockFile": "usuarios-GET/ok.json"
+                }
+            },
+            "switchResponses": {
+                "$.productoBANCA%20DIGITAL$.usuario.nombreGermain%20Castelan$.usuario.correoElectronicomiCorreo%40info.com$.usuario.numeroTelefono5540302010$.usuario.domicilio.calleCafetales$.usuario.domicilio.numeroSN$.usuario.domicilio.codigoPostal04918$.usuario.domicilio.ciudadCiudad%20de%20M%C3%A9xico": {
+                    "httpStatus": 201,
+                    "mockFile": "usuarios-POST/created.json"
+                },
+                "$.productoBANCA%20DIGITAL$.usuario.nombrenull$.usuario.correoElectronicomiCorreo%40info.com$.usuario.numeroTelefono5544332211$.usuario.domicilio.calleCafetales$.usuario.domicilio.numeroSN$.usuario.domicilio.codigoPostal04918$.usuario.domicilio.ciudadCiudad%20de%20M%C3%A9xico": {
+                    "httpStatus": 400,
+                    "mockFile": "usuarios-POST/bad_request.json"
+                },
+                "$.productonull$.usuario.nombrenull$.usuario.correoElectroniconull$.usuario.numeroTelefono5544332211$.usuario.domicilio.calleCafetales$.usuario.domicilio.numeroSN$.usuario.domicilio.codigoPostal04918$.usuario.domicilio.ciudadCiudad%20de%20M%C3%A9xico": {
+                    "httpStatus": 500,
+                    "mockFile": "usuarios-POST/internal_server_error.json"
+                }
+            }
+        },
+        "banca-digital/usuarios/v1/:idUsuario": {
+            "latency": 25,
+            "verbs": [
+                "get"
+            ],
+            "switch": [
+                "idUsuario"
+            ],
+            "responses": {
+                "get": {
+                    "httpStatus": 400,
+                    "mockFile": "usuarios-idUsuario-GET/bad_request.json"
+                }
+            },
+            "switchResponses": {
+                "idUsuario1": {
+                    "httpStatus": 200,
+                    "mockFile": "usuarios-idUsuario-GET/ok.json"
+                },
+                "idUsuarioabcde": {
+                    "httpStatus": 400,
+                    "mockFile": "usuarios-idUsuario-GET/bad_request.json"
+                },
+                "idUsuario1234": {
+                    "httpStatus": 404,
+                    "mockFile": "usuarios-idUsuario-GET/not_found.json"
+                },
+                "idUsuarionull": {
+                    "httpStatus": 500,
+                    "mockFile": "usuarios-idUsuario-GET/internal_server_error.json"
+                }
+            }
+        }
+    }
+}
